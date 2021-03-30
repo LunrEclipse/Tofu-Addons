@@ -26,11 +26,11 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         ItemStack[] NORECIPE = {null, null, null, null, null, null, null, null, null};
 
         //Bit
-        SlimefunItemStack bitStack = new SlimefunItemStack("TOFUMC_BIT", Material.GHAST_TEAR, "§fBit", "", "&7Currency");
+        SlimefunItemStack bitStack = new SlimefunItemStack("TOFUMC_BIT", Material.GHAST_TEAR, "§fBit", "", "&7Basic Currency");
         SlimefunItem sfBit = new SlimefunItem(category, bitStack, RecipeType.GRIND_STONE, NORECIPE);
 
         //Chunk
-        SlimefunItemStack chunkStack = new SlimefunItemStack("TOFUMC_CHUNK", Material.WHITE_CONCRETE, "§6Chunk", "", "&7Currency");
+        SlimefunItemStack chunkStack = new SlimefunItemStack("TOFUMC_CHUNK", Material.WHITE_CONCRETE, "§6Chunk", "", "&7Advanced Currency");
         SlimefunItem sfChunk = new SlimefunItem(category, chunkStack, RecipeType.COMPRESSOR, NORECIPE);
 
         //Antidote
