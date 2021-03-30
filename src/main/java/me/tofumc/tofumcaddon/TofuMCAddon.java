@@ -26,27 +26,58 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
 
         //Bit
         SlimefunItemStack bitStack = new SlimefunItemStack("TOFUMC_BIT", Material.GHAST_TEAR, "§fBit", "");
-        ItemStack[] bitRecipe = {
-                getItem("TOFU_CHUNK"), null, null,
-                null, null, null,
-                null, null, null
-        };
-        SlimefunItem sfBit = new SlimefunItem(category, bitStack, RecipeType.ENHANCED_CRAFTING_TABLE, bitRecipe);
-        sfBit.register(this);
+        SlimefunItem sfBit = new SlimefunItem(category, bitStack, RecipeType.ENHANCED_CRAFTING_TABLE, NORECIPE);
 
         //Chunk
         SlimefunItemStack chunkStack = new SlimefunItemStack("TOFUMC_CHUNK", Material.WHITE_CONCRETE, "§fChunk", "");
-        ItemStack[] chunkRecipe = {
-                getItem("TOFU_BIT"), getItem("TOFU_BIT"), getItem("TOFU_BIT"),
-                getItem("TOFU_BIT"), getItem("TOFU_BIT"), getItem("TOFU_BIT"),
-                getItem("TOFU_BIT"), getItem("TOFU_BIT"), getItem("TOFU_BIT")
-        };
-        SlimefunItem sfChunk = new SlimefunItem(category, chunkStack, RecipeType.ENHANCED_CRAFTING_TABLE, chunkRecipe);
-        sfChunk.register(this);
+        SlimefunItem sfChunk = new SlimefunItem(category, chunkStack, RecipeType.COMPRESSOR, NORECIPE);
 
         //Crafting Recipes
 
+        ItemStack[] bitToChunk = {
+                new SlimefunItemStack(bitStack, 64), null, null,
+                null, null, null,
+                null, null, null
+        };
 
+        sfChunk.setRecipe(bitToChunk);
+
+        ItemStack[] chunkToBit = {
+                new SlimefunItemStack(chunkStack, 1), null, null,
+                null, null, null,
+                null, null, null
+        };
+        
+        sfBit.setRecipe(chunkToBit);
+        sfBit.setRecipeOutput(new SlimefunItemStack(bitStack, 64));
+
+        ItemStack[] bitToGold = {
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),
+                null, null, null
+        };
+
+        ItemStack[] bitToIron = {
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), null,
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), null,
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), null
+        };
+
+
+        ItemStack[] bitToCoal = {
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), null,
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), null,
+                null, null, null
+        };
+
+
+        //Registers
+
+        sfChunk.register(this);
+        sfBit.register(this);
+        RecipeType.ENHANCED_CRAFTING_TABLE.register(bitToGold, new ItemStack(Material.GOLD_ORE, 6));
+        RecipeType.ENHANCED_CRAFTING_TABLE.register(bitToIron, new ItemStack(Material.IRON_ORE, 12));
+        RecipeType.ENHANCED_CRAFTING_TABLE.register(bitToCoal, new ItemStack(Material.COAL, 16));
 
     }
 
@@ -68,11 +99,6 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
          * If you are using your main class for this, simply return "this".
          */
         return this;
-    }
-
-    private static ItemStack getItem(String id) {
-        SlimefunItem item = SlimefunItem.getByID(id);
-        return item != null ? item.getItem() : null;
     }
 
 }
