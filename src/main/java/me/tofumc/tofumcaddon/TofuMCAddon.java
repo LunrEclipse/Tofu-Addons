@@ -26,14 +26,18 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         ItemStack[] NORECIPE = {null, null, null, null, null, null, null, null, null};
 
         //Bit
-        SlimefunItemStack bitStack = new SlimefunItemStack("TOFUMC_BIT", Material.GHAST_TEAR, "§fBit", "");
+        SlimefunItemStack bitStack = new SlimefunItemStack("TOFUMC_BIT", Material.GHAST_TEAR, "§fBit", "", "&7Currency");
         SlimefunItem sfBit = new SlimefunItem(category, bitStack, RecipeType.GRIND_STONE, NORECIPE);
 
         //Chunk
-        SlimefunItemStack chunkStack = new SlimefunItemStack("TOFUMC_CHUNK", Material.WHITE_CONCRETE, "§6Chunk", "");
+        SlimefunItemStack chunkStack = new SlimefunItemStack("TOFUMC_CHUNK", Material.WHITE_CONCRETE, "§6Chunk", "", "&7Currency");
         SlimefunItem sfChunk = new SlimefunItem(category, chunkStack, RecipeType.COMPRESSOR, NORECIPE);
 
-        //Crafting Recipes
+        //Antidote
+        SlimefunItemStack antidoteStack = new SlimefunItemStack("TOFU_ANTIDOTE", Material.HONEY_BOTTLE, "§fAntidote", "", "&7Removes All Status Effects");
+        Antidote sfAntidote = new Antidote(category, antidoteStack, RecipeType.JUICER, NORECIPE);
+
+        //Crafting Recipes on Guide
 
         ItemStack[] bitToChunk = {
                 new SlimefunItemStack(bitStack, 64), null, null,
@@ -52,11 +56,27 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         sfBit.setRecipe(chunkToBit);
         sfBit.setRecipeOutput(new SlimefunItemStack(bitStack, 64));
 
+        ItemStack[] antidoteRecipe = {
+                new ItemStack(Material.MILK_BUCKET), null, null,
+                null, null, null,
+                null, null, null
+        };
+        sfAntidote.setRecipe(antidoteRecipe);
+        sfAntidote.setRecipeOutput(new SlimefunItemStack(antidoteStack, 4));
+
+        //Registers
+
+        sfBit.register(this);
+        sfChunk.register(this);
+        sfAntidote.register(this);
+
         ItemStack[] bitToGold = {
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),
                 null, null, null
         };
+
+        RecipeType.ENHANCED_CRAFTING_TABLE.register(bitToGold, new ItemStack(Material.GOLD_ORE, 6));
 
         ItemStack[] bitToIron = {
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), null,
@@ -64,6 +84,7 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), null
         };
 
+        RecipeType.ENHANCED_CRAFTING_TABLE.register(bitToIron, new ItemStack(Material.IRON_ORE, 12));
 
         ItemStack[] bitToCoal = {
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), null,
@@ -71,15 +92,6 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
                 null, null, null
         };
 
-
-        //Registers
-
-        sfChunk.register(this);
-        sfBit.register(this);
-
-
-        RecipeType.ENHANCED_CRAFTING_TABLE.register(bitToGold, new ItemStack(Material.GOLD_ORE, 6));
-        RecipeType.ENHANCED_CRAFTING_TABLE.register(bitToIron, new ItemStack(Material.IRON_ORE, 12));
         RecipeType.ENHANCED_CRAFTING_TABLE.register(bitToCoal, new ItemStack(Material.COAL, 16));
 
         //Bits to Chunk (and Vica Versa Recipes)
@@ -149,6 +161,41 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
                 null, null, null,
                 null, null, null,
                 null, null, new SlimefunItemStack(chunkStack, 1)}, new SlimefunItemStack(bitStack, 64));
+
+        //Antidote Recipes
+        RecipeType.JUICER.register(new ItemStack[] {
+                null, new ItemStack(Material.MILK_BUCKET), null,
+                null, null, null,
+                null, null, null}, new SlimefunItemStack(antidoteStack, 4));
+        RecipeType.JUICER.register(new ItemStack[] {
+                null, null, new ItemStack(Material.MILK_BUCKET),
+                null, null, null,
+                null, null, null}, new SlimefunItemStack(antidoteStack, 4));
+        RecipeType.JUICER.register(new ItemStack[] {
+                null, null, null,
+                new ItemStack(Material.MILK_BUCKET), null, null,
+                null, null, null}, new SlimefunItemStack(antidoteStack, 4));
+        RecipeType.JUICER.register(new ItemStack[] {
+                null, null, null,
+                null, new ItemStack(Material.MILK_BUCKET), null,
+                null, null, null}, new SlimefunItemStack(antidoteStack, 4));
+        RecipeType.JUICER.register(new ItemStack[] {
+                null, null, null,
+                null, null, new ItemStack(Material.MILK_BUCKET),
+                null, null, null}, new SlimefunItemStack(antidoteStack, 4));
+        RecipeType.JUICER.register(new ItemStack[] {
+                null, null, null,
+                null, null, null,
+                new ItemStack(Material.MILK_BUCKET), null, null}, new SlimefunItemStack(antidoteStack, 4));
+        RecipeType.JUICER.register(new ItemStack[] {
+                null, null, null,
+                null, null, null,
+                null, new ItemStack(Material.MILK_BUCKET), null}, new SlimefunItemStack(antidoteStack, 4));
+        RecipeType.JUICER.register(new ItemStack[] {
+                null, null, null,
+                null, null, null,
+                null, null, new ItemStack(Material.MILK_BUCKET)}, new SlimefunItemStack(antidoteStack, 4));
+
 
 
     }
