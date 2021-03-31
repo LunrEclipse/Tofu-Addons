@@ -1,5 +1,6 @@
 package me.tofumc.tofumcaddon;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -37,6 +38,11 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         SlimefunItemStack antidoteStack = new SlimefunItemStack("TOFU_ANTIDOTE", Material.HONEY_BOTTLE, "§fAntidote", "", "&7Removes All Status Effects");
         Antidote sfAntidote = new Antidote(category, antidoteStack, RecipeType.JUICER, NORECIPE);
 
+        //MobIncapacitator
+        SlimefunItemStack mobIncapacitatorStack = new SlimefunItemStack("TOFU_MOB_INCAPACITATOR", SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg4MzJjMTQ2NmM4NDFjYzc5ZDVmMTAyOTVkNDY0Mjc5OTY3OTc1YTI0NTFjN2E1MzNjNzk5Njg5NzQwOGJlYSJ9fX0="),
+                "§fMob Incapacitator", "", "&7Weakens Nearby Mobs");
+        MobIncapacitator sfIncapacitator = new MobIncapacitator(category, mobIncapacitatorStack, RecipeType.ENHANCED_CRAFTING_TABLE, NORECIPE);
+
         //Crafting Recipes on Guide
 
         ItemStack[] bitToChunk = {
@@ -64,11 +70,19 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         sfAntidote.setRecipe(antidoteRecipe);
         sfAntidote.setRecipeOutput(new SlimefunItemStack(antidoteStack, 4));
 
+        ItemStack[] incapacitatorRecipe = {
+                new SlimefunItemStack(chunkStack, 1), new ItemStack(Material.NETHERITE_SWORD), new SlimefunItemStack(chunkStack, 1),
+                new SlimefunItemStack(chunkStack, 1), SlimefunItems.ELECTRIC_MOTOR , new SlimefunItemStack(chunkStack, 1),
+                new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1)
+        };
+        sfIncapacitator.setRecipe(incapacitatorRecipe);
+
         //Registers
 
         sfBit.register(this);
         sfChunk.register(this);
         sfAntidote.register(this);
+        sfIncapacitator.register(this);
 
         ItemStack[] bitToGold = {
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),

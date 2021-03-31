@@ -42,25 +42,5 @@ public class Antidote extends SlimefunItem {
             player.removePotionEffect(effect.getType());
     }
 
-    /*
-    private void onItemConsumption(PlayerItemConsumeEvent event) {
-        Player player = event.getPlayer();
-        PlayerInventory pi = player.getInventory();
-        for (PotionEffect effect : player.getActivePotionEffects())
-            player.removePotionEffect(effect.getType());
-        if(player.getItemInHand().getAmount() == 1)
-        {
-           pi.setItem(pi.getHeldItemSlot(), new ItemStack(Material.AIR, 0));
-        }
-        else
-        {
-            player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
-        }
-
-    }
-
-     */
-
-
 
 }
