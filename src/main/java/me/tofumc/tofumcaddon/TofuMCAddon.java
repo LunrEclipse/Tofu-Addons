@@ -19,6 +19,7 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onEnable() {
+        //Category
         NamespacedKey categoryID = new NamespacedKey(this, "TofuMC");
         CustomItem categoryItem = new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWU1YWFmOGYxZjhjZTg0MTlhM2Y1ZWFmODNmMmE1MWY1YTRlNThkNTc2NjRjM2VkYzFkNjI5NGZkZmY2NjBkOSJ9fX0="), "&4TofuMC");
 
@@ -28,61 +29,48 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
 
         //Bit
         SlimefunItemStack bitStack = new SlimefunItemStack("TOFUMC_BIT", Material.GHAST_TEAR, "§fBit", "", "&7Basic Currency");
-        SlimefunItem sfBit = new SlimefunItem(category, bitStack, RecipeType.GRIND_STONE, NORECIPE);
-
-        //Chunk
-        SlimefunItemStack chunkStack = new SlimefunItemStack("TOFUMC_CHUNK", Material.WHITE_CONCRETE, "§6Chunk", "", "&7Advanced Currency");
-        SlimefunItem sfChunk = new SlimefunItem(category, chunkStack, RecipeType.COMPRESSOR, NORECIPE);
-
-        //Antidote
-        SlimefunItemStack antidoteStack = new SlimefunItemStack("TOFU_ANTIDOTE", Material.HONEY_BOTTLE, "§fAntidote", "", "&7Removes All Status Effects");
-        Antidote sfAntidote = new Antidote(category, antidoteStack, RecipeType.JUICER, NORECIPE);
-
-        //MobIncapacitator
-        SlimefunItemStack mobIncapacitatorStack = new SlimefunItemStack("TOFU_MOB_INCAPACITATOR", SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg4MzJjMTQ2NmM4NDFjYzc5ZDVmMTAyOTVkNDY0Mjc5OTY3OTc1YTI0NTFjN2E1MzNjNzk5Njg5NzQwOGJlYSJ9fX0="),
-                "§fMob Incapacitator", "", "&7Weakens Nearby Mobs");
-        MobIncapacitator sfIncapacitator = new MobIncapacitator(category, mobIncapacitatorStack, RecipeType.ENHANCED_CRAFTING_TABLE, NORECIPE);
-
-        //Crafting Recipes on Guide
-
         ItemStack[] bitToChunk = {
                 new SlimefunItemStack(bitStack, 64), null, null,
                 null, null, null,
                 null, null, null
         };
+        SlimefunItem sfBit = new SlimefunItem(category, bitStack, RecipeType.GRIND_STONE, bitToChunk);
+        sfBit.register(this);
 
-        sfChunk.setRecipe(bitToChunk);
-
+        //Chunk
+        SlimefunItemStack chunkStack = new SlimefunItemStack("TOFUMC_CHUNK", Material.WHITE_CONCRETE, "§6Chunk", "", "&7Advanced Currency");
         ItemStack[] chunkToBit = {
                 new SlimefunItemStack(chunkStack, 1), null, null,
                 null, null, null,
                 null, null, null
         };
-        
-        sfBit.setRecipe(chunkToBit);
+        SlimefunItem sfChunk = new SlimefunItem(category, chunkStack, RecipeType.COMPRESSOR, chunkToBit);
         sfBit.setRecipeOutput(new SlimefunItemStack(bitStack, 64));
+        sfChunk.register(this);
 
+        //Antidote
+        SlimefunItemStack antidoteStack = new SlimefunItemStack("TOFU_ANTIDOTE", Material.HONEY_BOTTLE, "§fAntidote", "", "&7Removes All Status Effects");
         ItemStack[] antidoteRecipe = {
                 new ItemStack(Material.MILK_BUCKET), null, null,
                 null, null, null,
                 null, null, null
         };
-        sfAntidote.setRecipe(antidoteRecipe);
+        Antidote sfAntidote = new Antidote(category, antidoteStack, RecipeType.JUICER, antidoteRecipe);
         sfAntidote.setRecipeOutput(new SlimefunItemStack(antidoteStack, 4));
+        sfAntidote.register(this);
 
+        //MobIncapacitator
+        SlimefunItemStack mobIncapacitatorStack = new SlimefunItemStack("TOFU_MOB_INCAPACITATOR", SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg4MzJjMTQ2NmM4NDFjYzc5ZDVmMTAyOTVkNDY0Mjc5OTY3OTc1YTI0NTFjN2E1MzNjNzk5Njg5NzQwOGJlYSJ9fX0="),
+                "§fMob Incapacitator", "", "&7Weakens Nearby Mobs");
         ItemStack[] incapacitatorRecipe = {
                 new SlimefunItemStack(chunkStack, 1), new ItemStack(Material.NETHERITE_SWORD), new SlimefunItemStack(chunkStack, 1),
                 new SlimefunItemStack(chunkStack, 1), SlimefunItems.ELECTRIC_MOTOR , new SlimefunItemStack(chunkStack, 1),
                 new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1)
         };
-        sfIncapacitator.setRecipe(incapacitatorRecipe);
+        MobIncapacitator sfIncapacitator = new MobIncapacitator(category, mobIncapacitatorStack, RecipeType.ENHANCED_CRAFTING_TABLE, incapacitatorRecipe);
+        //sfIncapacitator.register(this);
 
-        //Registers
-
-        sfBit.register(this);
-        sfChunk.register(this);
-        sfAntidote.register(this);
-        sfIncapacitator.register(this);
+        //Custom Recipe Registers
 
         ItemStack[] bottleOfEnchanting = {
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),
