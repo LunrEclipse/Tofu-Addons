@@ -84,6 +84,14 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         sfAntidote.register(this);
         sfIncapacitator.register(this);
 
+        ItemStack[] bottleOfEnchanting = {
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),
+                new SlimefunItemStack(bitStack, 1), new ItemStack(Material.GLASS_BOTTLE), new SlimefunItemStack(bitStack, 1),
+                new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1)
+        };
+
+        RecipeType.ENHANCED_CRAFTING_TABLE.register(bottleOfEnchanting, new ItemStack(Material.EXPERIENCE_BOTTLE));
+
         ItemStack[] bitToGold = {
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),
                 new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1), new SlimefunItemStack(bitStack, 1),
