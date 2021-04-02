@@ -1,6 +1,10 @@
 package me.tofumc.tofumcaddon;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import me.tofumc.tofumcaddon.events.PhoenixDown;
+import me.tofumc.tofumcaddon.items.Antidote;
+import me.tofumc.tofumcaddon.items.ChaosPearl;
+import me.tofumc.tofumcaddon.items.FreshFlesh;
+import me.tofumc.tofumcaddon.items.Quickdote;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +15,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.skull.SkullItem;
 
@@ -26,6 +29,18 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         Category category = new Category(categoryID, categoryItem);
 
         ItemStack[] NORECIPE = {null, null, null, null, null, null, null, null, null};
+
+        /*
+        Template For Item
+        SlimefunItemStack Stack = new SlimefunItemStack("TOFU_", Material., "§f", "", "&7");
+        ItemStack[] tempRecipe = {
+                new SlimefunItemStack(bitStack, 64), null, null,
+                null, null, null,
+                null, null, null
+        };
+        SlimefunItem sf = new SlimefunItem(category, Stack, RecipeType.NULL, NORECIPE);
+        sf.register(this);
+         */
 
         //Bit
         SlimefunItemStack bitStack = new SlimefunItemStack("TOFUMC_BIT", Material.GHAST_TEAR, "§fBit", "", "&7Basic Currency");
@@ -48,6 +63,33 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         sfBit.setRecipeOutput(new SlimefunItemStack(bitStack, 64));
         sfChunk.register(this);
 
+        //Chaos Pearl
+        SlimefunItemStack chaosPearlStack = new SlimefunItemStack("TOFU_CHAOS_PEARL", Material.ENDER_PEARL, "§fChaos Pearl", "", "&7Dropped by Tier 2 Enderman");
+        ChaosPearl sfChaosPearl = new ChaosPearl(category, chaosPearlStack, RecipeType.NULL, NORECIPE);
+        sfChaosPearl.register(this);
+
+        //Phoenix Down
+        SlimefunItemStack phoenixDownStack = new SlimefunItemStack("TOFU_PHOENIX_DOWN", Material.BLAZE_POWDER, "§fPhoenix Down", "", "&7Dropped by Tier 2 Blaze");
+        SlimefunItem sfPhoenixDown = new SlimefunItem(category, phoenixDownStack, RecipeType.NULL, NORECIPE);
+        sfPhoenixDown.register(this);
+        final PhoenixDown phoenixDownEvent = new PhoenixDown(this, phoenixDownStack);
+
+
+        //Dragon Eye
+        SlimefunItemStack dragonEyeStack = new SlimefunItemStack("TOFU_DRAGON_EYE", Material.ENDER_EYE, "§cDragon Eye", "", "&7Summons a Wyvern");
+        ItemStack[] dragonEyeRecipe = {
+                new SlimefunItemStack(chaosPearlStack, 1), new SlimefunItemStack(phoenixDownStack, 1), null,
+                null, null, null,
+                null, null, null
+        };
+        SlimefunItem sfDragonEye = new SlimefunItem(category, dragonEyeStack, RecipeType.ENHANCED_CRAFTING_TABLE, dragonEyeRecipe);
+        sfDragonEye.register(this);
+
+        //Wyvern Scale
+        SlimefunItemStack wyvernScaleStack = new SlimefunItemStack("TOFU_WYVERN_SCALE", Material.DRIED_KELP, "§cWyvern Scale", "", "&7Dropped by Wyvern");
+        SlimefunItem sfWyvernScale = new SlimefunItem(category, wyvernScaleStack, RecipeType.NULL, NORECIPE);
+        sfWyvernScale.register(this);
+
         //Antidote
         SlimefunItemStack antidoteStack = new SlimefunItemStack("TOFU_ANTIDOTE", Material.HONEY_BOTTLE, "§fAntidote", "", "&7Removes All Status Effects");
         ItemStack[] antidoteRecipe = {
@@ -59,16 +101,20 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
         sfAntidote.setRecipeOutput(new SlimefunItemStack(antidoteStack, 4));
         sfAntidote.register(this);
 
-        //MobIncapacitator
-        SlimefunItemStack mobIncapacitatorStack = new SlimefunItemStack("TOFU_MOB_INCAPACITATOR", SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg4MzJjMTQ2NmM4NDFjYzc5ZDVmMTAyOTVkNDY0Mjc5OTY3OTc1YTI0NTFjN2E1MzNjNzk5Njg5NzQwOGJlYSJ9fX0="),
-                "§fMob Incapacitator", "", "&7Weakens Nearby Mobs");
-        ItemStack[] incapacitatorRecipe = {
-                new SlimefunItemStack(chunkStack, 1), new ItemStack(Material.NETHERITE_SWORD), new SlimefunItemStack(chunkStack, 1),
-                new SlimefunItemStack(chunkStack, 1), SlimefunItems.ELECTRIC_MOTOR , new SlimefunItemStack(chunkStack, 1),
-                new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1)
+        //Fresh Flesh
+        SlimefunItemStack freshFleshStack = new SlimefunItemStack("TOFU_FRESH_FLESH", Material.ROTTEN_FLESH, "§fFresh Flesh", "", "&7Dropped by Tier 2 Zombies");
+        FreshFlesh sfFreshFlesh = new FreshFlesh(category, freshFleshStack, RecipeType.NULL, NORECIPE);
+        sfFreshFlesh.register(this);
+
+        //Quicko'dote
+        SlimefunItemStack quickodoteStack = new SlimefunItemStack("TOFU_QUICKODOTE", Material.HONEY_BOTTLE, "§fQuicko'dote", "", "&7A Quick Antidote");
+        ItemStack[] quickodoteRecipe = {
+                new SlimefunItemStack(freshFleshStack, 1), null, new SlimefunItemStack(freshFleshStack, 1),
+                new SlimefunItemStack(freshFleshStack, 1), new SlimefunItemStack(antidoteStack, 1), new SlimefunItemStack(freshFleshStack, 1),
+                new SlimefunItemStack(freshFleshStack, 1), new SlimefunItemStack(freshFleshStack, 1), new SlimefunItemStack(freshFleshStack, 1)
         };
-        MobIncapacitator sfIncapacitator = new MobIncapacitator(category, mobIncapacitatorStack, RecipeType.ENHANCED_CRAFTING_TABLE, incapacitatorRecipe);
-        //sfIncapacitator.register(this);
+        Quickdote sfQuickodote = new Quickdote(category, quickodoteStack, RecipeType.ENHANCED_CRAFTING_TABLE, quickodoteRecipe);
+        sfQuickodote.register(this);
 
         //Custom Recipe Registers
 
@@ -205,6 +251,24 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
                 null, null, null,
                 null, null, null,
                 null, null, new ItemStack(Material.MILK_BUCKET)}, new SlimefunItemStack(antidoteStack, 4));
+
+
+        /*
+
+        Unused Items
+                //MobIncapacitator
+        SlimefunItemStack mobIncapacitatorStack = new SlimefunItemStack("TOFU_MOB_INCAPACITATOR", SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg4MzJjMTQ2NmM4NDFjYzc5ZDVmMTAyOTVkNDY0Mjc5OTY3OTc1YTI0NTFjN2E1MzNjNzk5Njg5NzQwOGJlYSJ9fX0="),
+                "§fMob Incapacitator", "", "&7Weakens Nearby Mobs");
+        ItemStack[] incapacitatorRecipe = {
+                new SlimefunItemStack(chunkStack, 1), new ItemStack(Material.NETHERITE_SWORD), new SlimefunItemStack(chunkStack, 1),
+                new SlimefunItemStack(chunkStack, 1), SlimefunItems.ELECTRIC_MOTOR , new SlimefunItemStack(chunkStack, 1),
+                new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1)
+        };
+        MobIncapacitator sfIncapacitator = new MobIncapacitator(category, mobIncapacitatorStack, RecipeType.ENHANCED_CRAFTING_TABLE, incapacitatorRecipe);
+        //sfIncapacitator.register(this);
+
+
+         */
 
 
 

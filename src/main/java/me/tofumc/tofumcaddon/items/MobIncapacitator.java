@@ -1,4 +1,4 @@
-package me.tofumc.tofumcaddon;
+package me.tofumc.tofumcaddon.items;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.*;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
