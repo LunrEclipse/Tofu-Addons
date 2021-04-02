@@ -5,9 +5,19 @@ import me.tofumc.tofumcaddon.items.Antidote;
 import me.tofumc.tofumcaddon.items.ChaosPearl;
 import me.tofumc.tofumcaddon.items.FreshFlesh;
 import me.tofumc.tofumcaddon.items.Quickdote;
+import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Banner;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -113,8 +123,113 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
                 new SlimefunItemStack(freshFleshStack, 1), new SlimefunItemStack(antidoteStack, 1), new SlimefunItemStack(freshFleshStack, 1),
                 new SlimefunItemStack(freshFleshStack, 1), new SlimefunItemStack(freshFleshStack, 1), new SlimefunItemStack(freshFleshStack, 1)
         };
+        quickodoteStack.addUnsafeEnchantment(Enchantment.QUICK_CHARGE, 1);
+        ItemMeta quickodoteMeta = quickodoteStack.getItemMeta();
+        quickodoteMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ENCHANTS});
         Quickdote sfQuickodote = new Quickdote(category, quickodoteStack, RecipeType.ENHANCED_CRAFTING_TABLE, quickodoteRecipe);
         sfQuickodote.register(this);
+
+        //Reinforced Shield
+        SlimefunItemStack reinforcedShieldStack = new SlimefunItemStack("TOFU_REINFORCED_SHIELD", Material.SHIELD, "§fReinforced Shield", "", "&7A Better Shield");
+        ItemStack[] reinforcedShieldRecipe = {
+                new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1),
+                new SlimefunItemStack(chunkStack, 1), new ItemStack(Material.SHIELD), new SlimefunItemStack(chunkStack, 1),
+                new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1)
+        };
+        ItemMeta reinforcedShieldMeta = reinforcedShieldStack.getItemMeta();
+        reinforcedShieldMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ENCHANTS});
+        reinforcedShieldMeta.addEnchant(Enchantment.DURABILITY, 5, true);
+        BlockStateMeta rsMeta = (BlockStateMeta) reinforcedShieldMeta;
+        Banner rsBanner = (Banner) rsMeta.getBlockState();
+        rsBanner.setBaseColor(DyeColor.BROWN);
+        rsMeta.setBlockState(rsBanner);
+        reinforcedShieldStack.setItemMeta(rsMeta);
+        SlimefunItem sfReinforcedShield = new SlimefunItem(category, reinforcedShieldStack, RecipeType.ENHANCED_CRAFTING_TABLE, reinforcedShieldRecipe);
+        sfReinforcedShield.register(this);
+
+        //Aegis
+        SlimefunItemStack aegisStack = new SlimefunItemStack("TOFU_AEGIS", Material.SHIELD, "§cAegis Shield", "", "&7The Best Shield");
+        ItemStack[] aegisRecipe = {
+                new ItemStack(Material.IRON_INGOT, 64),  new ItemStack(Material.IRON_INGOT, 64),  new ItemStack(Material.IRON_INGOT, 64),
+                new ItemStack(Material.IRON_INGOT, 64), new SlimefunItemStack(reinforcedShieldStack, 1),  new ItemStack(Material.IRON_INGOT, 64),
+                new ItemStack(Material.IRON_INGOT, 64),  new ItemStack(Material.IRON_INGOT, 64),  new ItemStack(Material.IRON_INGOT, 64)
+        };
+        ItemMeta aegisMeta = aegisStack.getItemMeta();
+        aegisMeta.setUnbreakable(true);
+        aegisMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_UNBREAKABLE});
+        aegisMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_DYE});
+        BlockStateMeta aegisBSMeta = (BlockStateMeta) aegisMeta;
+        Banner aegisBanner = (Banner) aegisBSMeta.getBlockState();
+        aegisBanner.setBaseColor(DyeColor.BROWN);
+        aegisBanner.addPattern(new Pattern(DyeColor.WHITE, PatternType.FLOWER));
+        aegisBSMeta.setBlockState(aegisBanner);
+        aegisStack.setItemMeta(aegisBSMeta);
+        SlimefunItem sfAegis = new SlimefunItem(category, aegisStack, RecipeType.ENHANCED_CRAFTING_TABLE, aegisRecipe);
+        sfAegis.register(this);
+
+        //Ion Cell
+        SlimefunItemStack ionCellStack = new SlimefunItemStack("TOFU_ION_CELL", Material.DAYLIGHT_DETECTOR, "§fIon Sensor", "", "&7Idk");
+        SlimefunItem sfIonCell = new SlimefunItem(category, ionCellStack, RecipeType.NULL, NORECIPE);
+        sfIonCell.register(this);
+
+        //Ion Tube
+        SlimefunItemStack ionTubeStack = new SlimefunItemStack("TOFU_ION_TUBE", Material.END_ROD, "§fIon Tube", "", "&7Idk");
+        ItemStack[] ionTubeRecipe = {
+                new SlimefunItemStack(chunkStack, 1),  new SlimefunItemStack(chunkStack, 1),  new SlimefunItemStack(chunkStack, 1),
+                null, null, null,
+                null, null, null
+        };
+        SlimefunItem sfIonTube = new SlimefunItem(category, ionTubeStack, RecipeType.PRESSURE_CHAMBER, ionTubeRecipe);
+        sfIonTube.register(this);
+
+        //Silk
+        SlimefunItemStack silkStack = new SlimefunItemStack("TOFU_SILK", Material.STRING, "§fSilk", "", "&7Dropped by Tier 2 Spiders");
+        SlimefunItem sfSilk = new SlimefunItem(category, silkStack, RecipeType.NULL, NORECIPE);
+        sfSilk.register(this);
+
+        //Compound Eye
+        SlimefunItemStack compoundEyeStack = new SlimefunItemStack("TOFU_COMPOUND_EYE", Material.SPIDER_EYE, "§fCompound Eye", "", "&7Dropped by Tier 2 Spiders");
+        SlimefunItem sfCompoundEye = new SlimefunItem(category, compoundEyeStack, RecipeType.NULL, NORECIPE);
+        sfCompoundEye.register(this);
+
+        //Soul Essence
+        SlimefunItemStack soulEssenceStack = new SlimefunItemStack("TOFU_SOUL_ESSENCE", Material.LINGERING_POTION, "§fSoul Essence", "", "&7Dropped by Tier 2 Witches");
+        PotionMeta soulEssenceMeta = (PotionMeta) soulEssenceStack.getItemMeta();
+        soulEssenceMeta.setColor(Color.WHITE);
+        soulEssenceMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_POTION_EFFECTS});
+        soulEssenceStack.setItemMeta(soulEssenceMeta);
+        SlimefunItem sfSoulEssence = new SlimefunItem(category, soulEssenceStack, RecipeType.NULL, NORECIPE);
+        sfSoulEssence.register(this);
+
+        //Burnt Note
+        SlimefunItemStack burntNoteStack = new SlimefunItemStack("TOFU_BURNT_NOTE", Material.PAPER, "§4Burnt Note", "", "&7Dropped by Tier 2 Fire Wizard");
+        SlimefunItem sfBurntNote = new SlimefunItem(category, burntNoteStack, RecipeType.NULL, NORECIPE);
+        sfBurntNote.register(this);
+
+        //Wet Note
+        SlimefunItemStack wetNoteStack = new SlimefunItemStack("TOFU_WET_NOTE", Material.PAPER, "§9Wet Note", "", "&7Dropped by Tier 2 Water Wizard");
+        SlimefunItem sfWetNote = new SlimefunItem(category, wetNoteStack, RecipeType.NULL, NORECIPE);
+        sfWetNote.register(this);
+
+        //Weightless Note
+        SlimefunItemStack weightlessNoteStack = new SlimefunItemStack("TOFU_WEIGHTLESS_NOTE", Material.PAPER, "§7Weightless Note", "", "&7Dropped by Tier 2 Air Wizard");
+        SlimefunItem sfWeightlessNote = new SlimefunItem(category, weightlessNoteStack, RecipeType.NULL, NORECIPE);
+        sfWeightlessNote.register(this);
+
+        //Heavy Note
+        SlimefunItemStack heavyNoteStack = new SlimefunItemStack("TOFU_HEAVY_NOTE", Material.PAPER, "§2Heavy Note", "", "&7Dropped by Tier 2 Earth Wizard");
+        SlimefunItem sfHeavyNote = new SlimefunItem(category, heavyNoteStack, RecipeType.NULL, NORECIPE);
+        sfHeavyNote.register(this);
+
+        //Light Note
+        SlimefunItemStack lightNoteStack = new SlimefunItemStack("TOFU_LIGHT_NOTE", Material.PAPER, "§fLight Note", "", "&7Dropped by Soothesayer");
+        SlimefunItem sfLightNote = new SlimefunItem(category, lightNoteStack, RecipeType.NULL, NORECIPE);
+        sfLightNote.register(this);
+
+        //Dark Note
+        SlimefunItemStack darkNoteStack = new SlimefunItemStack("TOFU_DARK_NOTE", Material.PAPER, "§0Dark Note", "", "&7Dropped by Soothesayer");
+        SlimefunItem sfDarkNote = new SlimefunItem(category, darkNoteStack, RecipeType.NULL, NORECIPE);
+        sfDarkNote.register(this);
 
         //Custom Recipe Registers
 
