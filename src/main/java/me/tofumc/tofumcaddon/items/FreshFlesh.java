@@ -46,9 +46,19 @@ public class FreshFlesh extends SlimefunItem {
     }
 
     private void onItemConsumption(PlayerItemConsumeEvent event, Player player, ItemStack itemStack) {
+        event.setCancelled(true);
         float saturation = player.getSaturation() - 10;
         player.setFoodLevel(20);
         player.setSaturation(saturation);
+        PlayerInventory pi = player.getInventory();
+        if(player.getItemInHand().getAmount() == 1)
+        {
+            pi.setItem(pi.getHeldItemSlot(), new ItemStack(Material.AIR, 0));
+        }
+        else
+        {
+            player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
+        }
 
     }
 

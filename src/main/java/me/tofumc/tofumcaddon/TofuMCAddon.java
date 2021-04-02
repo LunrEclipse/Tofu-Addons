@@ -124,40 +124,22 @@ public class TofuMCAddon extends JavaPlugin implements SlimefunAddon {
                 new SlimefunItemStack(freshFleshStack, 1), new SlimefunItemStack(freshFleshStack, 1), new SlimefunItemStack(freshFleshStack, 1)
         };
         quickodoteStack.addUnsafeEnchantment(Enchantment.QUICK_CHARGE, 1);
-        ItemMeta quickodoteMeta = quickodoteStack.getItemMeta();
-        quickodoteMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ENCHANTS});
+        quickodoteStack.addFlags(new ItemFlag[]{ItemFlag.HIDE_ENCHANTS});
         Quickdote sfQuickodote = new Quickdote(category, quickodoteStack, RecipeType.ENHANCED_CRAFTING_TABLE, quickodoteRecipe);
         sfQuickodote.register(this);
 
-        //Reinforced Shield
-        SlimefunItemStack reinforcedShieldStack = new SlimefunItemStack("TOFU_REINFORCED_SHIELD", Material.SHIELD, "§fReinforced Shield", "", "&7A Better Shield");
-        ItemStack[] reinforcedShieldRecipe = {
-                new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1),
-                new SlimefunItemStack(chunkStack, 1), new ItemStack(Material.SHIELD), new SlimefunItemStack(chunkStack, 1),
-                new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1), new SlimefunItemStack(chunkStack, 1)
-        };
-        ItemMeta reinforcedShieldMeta = reinforcedShieldStack.getItemMeta();
-        reinforcedShieldMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ENCHANTS});
-        reinforcedShieldMeta.addEnchant(Enchantment.DURABILITY, 5, true);
-        BlockStateMeta rsMeta = (BlockStateMeta) reinforcedShieldMeta;
-        Banner rsBanner = (Banner) rsMeta.getBlockState();
-        rsBanner.setBaseColor(DyeColor.BROWN);
-        rsMeta.setBlockState(rsBanner);
-        reinforcedShieldStack.setItemMeta(rsMeta);
-        SlimefunItem sfReinforcedShield = new SlimefunItem(category, reinforcedShieldStack, RecipeType.ENHANCED_CRAFTING_TABLE, reinforcedShieldRecipe);
-        sfReinforcedShield.register(this);
 
         //Aegis
         SlimefunItemStack aegisStack = new SlimefunItemStack("TOFU_AEGIS", Material.SHIELD, "§cAegis Shield", "", "&7The Best Shield");
         ItemStack[] aegisRecipe = {
-                new ItemStack(Material.IRON_INGOT, 64),  new ItemStack(Material.IRON_INGOT, 64),  new ItemStack(Material.IRON_INGOT, 64),
-                new ItemStack(Material.IRON_INGOT, 64), new SlimefunItemStack(reinforcedShieldStack, 1),  new ItemStack(Material.IRON_INGOT, 64),
-                new ItemStack(Material.IRON_INGOT, 64),  new ItemStack(Material.IRON_INGOT, 64),  new ItemStack(Material.IRON_INGOT, 64)
+                new SlimefunItemStack(chunkStack, 64),  new SlimefunItemStack(chunkStack, 64),  new SlimefunItemStack(chunkStack, 64),
+                new SlimefunItemStack(chunkStack, 64), new ItemStack(Material.SHIELD, 1),  new SlimefunItemStack(chunkStack, 64),
+                new SlimefunItemStack(chunkStack, 64),  new SlimefunItemStack(chunkStack, 64),  new SlimefunItemStack(chunkStack, 64)
         };
         ItemMeta aegisMeta = aegisStack.getItemMeta();
         aegisMeta.setUnbreakable(true);
         aegisMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_UNBREAKABLE});
-        aegisMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_DYE});
+        aegisMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_POTION_EFFECTS});
         BlockStateMeta aegisBSMeta = (BlockStateMeta) aegisMeta;
         Banner aegisBanner = (Banner) aegisBSMeta.getBlockState();
         aegisBanner.setBaseColor(DyeColor.BROWN);
