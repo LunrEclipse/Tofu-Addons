@@ -51,6 +51,9 @@ public class PhoenixDown implements Listener {
         scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {
             public void run() {
                 for(Player p : Bukkit.getOnlinePlayers()){
+                    if (p.getInventory().getItemInMainHand().getItemMeta() == null) {
+                        continue;
+                    }
                     if(p.getInventory().getItemInMainHand().getItemMeta().equals(myItem.getItemMeta()))
                         p.setFireTicks(25);
                 }
